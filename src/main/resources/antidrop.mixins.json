@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.enaium.antidrop.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "KeyboardMixin",
+    "IKeyBindingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
