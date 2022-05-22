@@ -99,7 +99,7 @@ public class AntiDrop implements ModInitializer {
         private void key(KeyEvent event) {
             MinecraftClient mc = MinecraftClient.getInstance();
 
-            if (event.key != (((IKeyBindingMixin) mc.options.keyDrop)).getBoundKey().getCode())
+            if (event.key != (((IKeyBindingMixin) mc.options.dropKey)).getBoundKey().getCode())
                 return;
 
             if (itemStack != null && mc.currentScreen instanceof InventoryScreen) {
