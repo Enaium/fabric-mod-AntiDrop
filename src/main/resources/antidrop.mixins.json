@@ -4,8 +4,9 @@
   "package": "cn.enaium.antidrop.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "IKeyBindingMixin",
     "KeyboardMixin",
-    "IKeyBindingMixin"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
