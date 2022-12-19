@@ -23,15 +23,17 @@ import com.google.common.eventbus.Subscribe;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.command.ServerCommandSource;
 import org.apache.commons.io.FileUtils;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,12 +54,10 @@ public class AntiDrop implements ModInitializer {
         LOGGER.info("Hello AntiDrop world!");
         eventBus.register(new Sub());
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
-            dispatcher.register(CommandManager.literal("antidrop").executes(context -> {
-                MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().setScreen(new ItemListScreen()));
-                return Command.SINGLE_SUCCESS;
-            }));
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal("antidrop").executes(context -> {
+            MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().setScreen(new ItemListScreen()));
+            return Command.SINGLE_SUCCESS;
+        })));
         load();
         Runtime.getRuntime().addShutdownHook(new Thread(AntiDrop::save));
     }
@@ -104,7 +104,7 @@ public class AntiDrop implements ModInitializer {
 
             if (itemStack != null && mc.currentScreen instanceof InventoryScreen) {
                 if (AntiDrop.list.contains(
-                        Registry.ITEM.getId(
+                        Registries.ITEM.getId(
                                 itemStack.getItem()
                         ).toString()
                 )
@@ -119,7 +119,7 @@ public class AntiDrop implements ModInitializer {
                 final var stack = mc.player.getInventory().getStack(slot);
                 if (!stack.isEmpty()) {
                     if (AntiDrop.list.contains(
-                            Registry.ITEM.getId(
+                            Registries.ITEM.getId(
                                     stack.getItem()
                             ).toString()
                     )

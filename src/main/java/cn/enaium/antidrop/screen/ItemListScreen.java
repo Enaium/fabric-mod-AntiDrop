@@ -21,8 +21,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 /**
  * @author Enaium
@@ -33,7 +32,7 @@ public class ItemListScreen extends Screen {
     private ButtonWidget removeButton;
 
     public ItemListScreen() {
-        super(new LiteralText(""));
+        super(Text.empty());
     }
 
     @Override
@@ -42,16 +41,16 @@ public class ItemListScreen extends Screen {
 
         AntiDrop.list.forEach(it -> entryListWidget.addEntry(new ItemListWidget.Entry(it)));
 
-        ButtonWidget addButton = new ButtonWidget(width / 2 - 100, 15, 200, 20, new TranslatableText("button.add"), e -> {
+        ButtonWidget addButton = ButtonWidget.builder(Text.translatable("button.add"), e -> {
             MinecraftClient.getInstance().setScreen(new ItemListAllScreen());
-        });
-        removeButton = new ButtonWidget(width / 2 - 100, height - 35, 200, 20, new TranslatableText("button.remove"), e -> {
+        }).dimensions(width / 2 - 100, 15, 200, 20).build();
+        removeButton = ButtonWidget.builder(Text.translatable("button.remove"), e -> {
             if (entryListWidget.getSelectedOrNull() != null) {
                 AntiDrop.list.remove(entryListWidget.getSelectedOrNull().name);
                 AntiDrop.save();
                 entryListWidget.removeEntry(entryListWidget.getSelectedOrNull());
             }
-        });
+        }).dimensions(width / 2 - 100, height - 35, 200, 20).build();
         addDrawableChild(entryListWidget);
         addDrawableChild(addButton);
         addDrawableChild(removeButton);

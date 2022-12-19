@@ -22,9 +22,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,21 +38,21 @@ public class ItemListAllScreen extends Screen {
     private ButtonWidget addButton;
 
     public ItemListAllScreen() {
-        super(new LiteralText(""));
+        super(Text.empty());
     }
 
     @Override
     public void init() {
         entryListWidget = new ListWidget<>(client, width, height, 50, height - 50, 24);
-        textFieldWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, width / 2 - 100, 15, 200, 20, new LiteralText(""));
-        addButton = new ButtonWidget(width / 2 - 100, height - 35, 200, 20, new TranslatableText("button.add"), e -> {
+        textFieldWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, width / 2 - 100, 15, 200, 20, Text.empty());
+        addButton = ButtonWidget.builder(Text.translatable("button.add"), e -> {
             ItemListWidget.Entry selectedOrNull = entryListWidget.getSelectedOrNull();
             if (selectedOrNull != null) {
                 AntiDrop.list.add(selectedOrNull.name);
                 AntiDrop.save();
                 MinecraftClient.getInstance().setScreen(new ItemListScreen());
             }
-        });
+        }).dimensions(width / 2 - 100, height - 35, 200, 20).build();
         get().forEach(entryListWidget::addEntry);
         textFieldWidget.setChangedListener(s -> {
             entryListWidget.replaceEntries(get());
@@ -66,13 +65,13 @@ public class ItemListAllScreen extends Screen {
     }
 
     public List<ItemListWidget.Entry> get() {
-        return Registry.ITEM.stream().filter(it -> {
+        return Registries.ITEM.stream().filter(it -> {
             if (!textFieldWidget.getText().equals("")) {
-                return (it.asItem().toString().contains(textFieldWidget.getText()) || new TranslatableText(it.asItem().getTranslationKey()).getString().contains(textFieldWidget.getText()));
+                return (it.asItem().toString().contains(textFieldWidget.getText()) || Text.translatable(it.asItem().getTranslationKey()).getString().contains(textFieldWidget.getText()));
             } else {
                 return true;
             }
-        }).map(it -> new ItemListWidget.Entry(Registry.ITEM.getId(it.asItem()).toString())).collect(Collectors.toList());
+        }).map(it -> new ItemListWidget.Entry(Registries.ITEM.getId(it.asItem()).toString())).collect(Collectors.toList());
     }
 
     @Override

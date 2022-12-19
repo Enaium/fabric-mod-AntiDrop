@@ -17,12 +17,11 @@
 package cn.enaium.antidrop.screen;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 /**
  * @author Enaium
@@ -39,11 +38,11 @@ public class ItemListWidget {
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             var textRenderer = MinecraftClient.getInstance().textRenderer;
-            var itemStack = new ItemStack(Registry.ITEM.get(new Identifier(name)));
+            var itemStack = new ItemStack(Registries.ITEM.get(new Identifier(name)));
             if (!itemStack.isEmpty()) {
                 MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(itemStack, x, y);
-                textRenderer.draw(matrices, new TranslatableText(itemStack.getTranslationKey()).getString(),
-                        x + entryWidth - textRenderer.getWidth(new TranslatableText(itemStack.getTranslationKey()).getString()),
+                textRenderer.draw(matrices, Text.translatable(itemStack.getTranslationKey()).getString(),
+                        x + entryWidth - textRenderer.getWidth(Text.translatable(itemStack.getTranslationKey()).getString()),
                         y + textRenderer.fontHeight, 0xFFFFFFFF);
             }
             textRenderer.draw(matrices, name, x + entryWidth - textRenderer.getWidth(name), y, 0xFFFFFFFF);
