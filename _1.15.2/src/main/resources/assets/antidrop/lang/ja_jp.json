@@ -1,0 +1,6 @@
+{
+  "button.add": "追加",
+  "button.remove": "削除",
+  "command.action.add": "%sをリストに追加",
+  "command.action.remove": "%sをリストから削除"
+}
