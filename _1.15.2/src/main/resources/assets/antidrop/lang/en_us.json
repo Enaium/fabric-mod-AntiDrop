@@ -1,6 +1,0 @@
-{
-  "button.add": "Add",
-  "button.remove": "Remove",
-  "command.action.add": "Add %s to the list",
-  "command.action.remove": "Remove %s from the list"
-}
