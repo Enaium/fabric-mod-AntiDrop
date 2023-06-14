@@ -74,7 +74,7 @@ subprojects {
     afterEvaluate {
         properties["modrinth.token"]?.let {
             configure<ModrinthExtension> {
-                projectId.set("MxjO3Kkh")
+                projectId.set("CWgsoj4A")
                 versionNumber.set(version.toString())
                 versionName.set("$archivesBaseName-$version")
                 gameVersions.set(listOf(property("minecraftVersion").toString()))
@@ -92,7 +92,7 @@ subprojects {
             configure<GithubReleaseExtension> {
                 token(it.toString())
                 owner.set("Enaium-FabricMC")
-                repo.set("OneKeyMiner")
+                repo.set("AntiDrop")
                 tagName.set(version.toString())
                 releaseName.set("$archivesBaseName-$version")
                 targetCommitish.set("master")
