@@ -76,7 +76,7 @@ public class ItemListAllScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context);
+        renderBackground(context, mouseX, mouseY, delta);
         addButton.active = entryListWidget.getSelectedOrNull() != null;
         super.render(context, mouseX, mouseY, delta);
     }
