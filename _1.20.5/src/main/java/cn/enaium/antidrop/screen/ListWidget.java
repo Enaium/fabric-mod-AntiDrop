@@ -27,8 +27,8 @@ import java.util.Collection;
  * @author Enaium
  */
 public class ListWidget<T extends ListWidget.Entry<T>> extends EntryListWidget<T> {
-    public ListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-        super(client, width, height, top, bottom, itemHeight);
+    public ListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
+        super(client, width, height, y, itemHeight);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ListWidget<T extends ListWidget.Entry<T>> extends EntryListWidget<T
     }
 
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
+    protected void appendClickableNarrations(NarrationMessageBuilder builder) {
 
     }
 

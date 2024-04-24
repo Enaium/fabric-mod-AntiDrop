@@ -37,7 +37,7 @@ public class ItemListScreen extends Screen {
 
     @Override
     protected void init() {
-        entryListWidget = new ListWidget<>(client, width, height, 50, height - 50, 24);
+        entryListWidget = new ListWidget<>(client, width, height - 100, 50, 24);
 
         Config.getModel().item.forEach(it -> entryListWidget.addEntry(new ItemListWidget.Entry(it)));
 

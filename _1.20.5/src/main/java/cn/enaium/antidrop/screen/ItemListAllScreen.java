@@ -43,7 +43,7 @@ public class ItemListAllScreen extends Screen {
 
     @Override
     public void init() {
-        entryListWidget = new ListWidget<>(client, width, height, 50, height - 50, 24);
+        entryListWidget = new ListWidget<>(client, width, height - 100, 50, 24);
         textFieldWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, width / 2 - 100, 15, 200, 20, Text.empty());
         addButton = ButtonWidget.builder(Text.translatable("button.add"), e -> {
             ItemListWidget.Entry selectedOrNull = entryListWidget.getSelectedOrNull();
