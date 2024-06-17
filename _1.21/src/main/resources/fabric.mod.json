@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "antidrop",
+  "version": "${version}",
+  "name": "Anti Drop",
+  "description": "Anti items from being drop away!",
+  "authors": [
+    "Enaium"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Enaium-FabricMC/AntiDrop",
+    "sources": "https://github.com/Enaium-FabricMC/AntiDrop",
+    "issues": "https://github.com/Enaium-FabricMC/AntiDrop/issues"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/antidrop/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "cn.enaium.antidrop.AntiDrop"
+    ]
+  },
+  "mixins": [
+    "antidrop.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.21.x",
+    "java": ">=21"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
