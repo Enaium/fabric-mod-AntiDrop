@@ -21,7 +21,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
@@ -43,8 +42,8 @@ public class ItemListWidget {
             if (!itemStack.isEmpty()) {
                 context.drawItem(itemStack, x, y);
 
-                context.drawText(textRenderer, Text.translatable(itemStack.getTranslationKey()).getString(),
-                        x + entryWidth - textRenderer.getWidth(Text.translatable(itemStack.getTranslationKey()).getString()),
+                context.drawText(textRenderer, itemStack.getName(),
+                        x + entryWidth - textRenderer.getWidth(itemStack.getName()),
                         y + textRenderer.fontHeight, 0xFFFFFFFF, true);
             }
             context.drawText(textRenderer, name, x + entryWidth - textRenderer.getWidth(name), y, 0xFFFFFFFF, true);

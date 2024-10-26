@@ -57,7 +57,7 @@ public class ListWidget<T extends ListWidget.Entry<T>> extends EntryListWidget<T
     }
 
     @Override
-    protected void replaceEntries(Collection<T> newEntries) {
+    public void replaceEntries(Collection<T> newEntries) {
         super.replaceEntries(newEntries);
     }
 
