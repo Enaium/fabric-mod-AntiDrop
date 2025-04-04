@@ -39,7 +39,7 @@ public class ListCommand {
 
             MutableText previous = null;
             for (String item : Config.getModel().item) {
-                final MutableText itemText = Text.literal(item).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackContent(Registries.ITEM.get(Identifier.of(item)).getDefaultStack()))));
+                final MutableText itemText = Text.literal(item).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent.ShowItem(Registries.ITEM.get(Identifier.of(item)).getDefaultStack())));
                 if (previous == null) {
                     previous = itemText;
                 } else {

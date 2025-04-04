@@ -43,10 +43,10 @@ public class ActionCommand {
                 final String itemName = Registries.ITEM.getId(item).toString();
                 if (action == Action.ADD) {
                     Config.getModel().item.add(itemName);
-                    context.getSource().sendFeedback(() -> Text.translatable("command.action.add", Text.literal(itemName).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackContent(item.getDefaultStack()))))), false);
+                    context.getSource().sendFeedback(() -> Text.translatable("command.action.add", Text.literal(itemName).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent.ShowItem(item.getDefaultStack())))), false);
                 } else if (action == Action.REMOVE) {
                     Config.getModel().item.remove(itemName);
-                    context.getSource().sendFeedback(() -> Text.translatable("command.action.remove", Text.literal(itemName).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackContent(item.getDefaultStack()))))), false);
+                    context.getSource().sendFeedback(() -> Text.translatable("command.action.remove", Text.literal(itemName).styled(style -> style.withColor(Formatting.AQUA).withHoverEvent(new HoverEvent.ShowItem(item.getDefaultStack())))), false);
                 }
                 return Command.SINGLE_SUCCESS;
             }))));

@@ -31,12 +31,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(PlayerInventory.class)
 public abstract class PlayerInventoryMixin {
-    @Shadow
-    public abstract ItemStack getMainHandStack();
+    @Shadow public abstract ItemStack getSelectedStack();
 
     @Inject(at = @At("HEAD"), method = "dropSelectedItem", cancellable = true)
     public void dropSelectedItem(boolean entireStack, CallbackInfoReturnable<ItemStack> cir) {
-        if (DropSelectedItemCallback.EVENT.invoker().interact(getMainHandStack()) == ActionResult.FAIL) {
+        if (DropSelectedItemCallback.EVENT.invoker().interact(getSelectedStack()) == ActionResult.FAIL) {
             cir.setReturnValue(ItemStack.EMPTY);
         }
     }
