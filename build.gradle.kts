@@ -1,5 +1,5 @@
-import com.github.breadmoirai.githubreleaseplugin.GithubReleaseExtension
-import com.modrinth.minotaur.ModrinthExtension
+import me.modmuss50.mpp.ModPublishExtension
+import me.modmuss50.mpp.PublishModTask
 
 plugins {
     id("java")
@@ -16,13 +16,12 @@ buildscript {
     }
 
     val loomVersion: String by project
-    val minotaurVersion: String by project
-    val githubReleaseVersion: String by project
+    val modPublishVersion: String by project
+
 
     dependencies {
         classpath("net.fabricmc:fabric-loom:${loomVersion}")
-        classpath("com.modrinth.minotaur:Minotaur:${minotaurVersion}")
-        classpath("com.github.breadmoirai:github-release:${githubReleaseVersion}")
+        classpath("me.modmuss50.mod-publish-plugin:me.modmuss50.mod-publish-plugin.gradle.plugin:${modPublishVersion}")
     }
 }
 
@@ -36,15 +35,14 @@ sourceSets {
 
 allprojects {
     group = "cn.enaium"
-    version = "1.1.0"
+    version = "1.1.1"
 }
 
 subprojects {
     apply {
         plugin("java")
         plugin("fabric-loom")
-        plugin("com.modrinth.minotaur")
-        plugin("com.github.breadmoirai.github-release")
+        plugin("me.modmuss50.mod-publish-plugin")
     }
 
     val archivesBaseName: String by project
@@ -53,8 +51,10 @@ subprojects {
         archivesName.set(archivesBaseName)
     }
 
+    version = "${property("minecraftVersion")}-${version}"
+
     tasks.processResources {
-        inputs.property("version", project.version)
+        inputs.property("currentTimeMillis", System.currentTimeMillis())
 
         filesMatching("fabric.mod.json") {
             expand(mapOf("version" to project.version.toString()))
@@ -72,33 +72,35 @@ subprojects {
     }
 
     afterEvaluate {
-        properties["modrinth.token"]?.let {
-            configure<ModrinthExtension> {
-                projectId.set("CWgsoj4A")
-                versionNumber.set(version.toString())
-                versionName.set("$archivesBaseName-$version")
-                gameVersions.set(listOf(property("minecraftVersion").toString()))
-                versionType.set("release")
-                loaders.set(listOf("fabric"))
-                dependencies {
-                    required.project("fabric-api")
-                }
-                uploadFile.set(tasks.named("remapJar"))
-                token.set(it.toString())
-            }
-        }
+        configure<ModPublishExtension> {
+            file = tasks.named<AbstractArchiveTask>("remapJar").get().archiveFile.get()
+            type = STABLE
+            displayName = "AntiDrop ${project.version}"
+            changelog = rootProject.file("changelog.md").readText(Charsets.UTF_8)
+            modLoaders.add("fabric")
 
-        properties["github.token"]?.let {
-            configure<GithubReleaseExtension> {
-                token(it.toString())
-                owner.set("Enaium-FabricMC")
-                repo.set("AntiDrop")
-                tagName.set(version.toString())
-                releaseName.set("$archivesBaseName-$version")
-                targetCommitish.set("master")
-                generateReleaseNotes.set(false)
-                body.set("$archivesBaseName-$version")
-                releaseAssets(listOf(tasks.named("remapJar")))
+            curseforge {
+                projectId = "580810"
+                accessToken = providers.gradleProperty("curseforge.token")
+                minecraftVersions.add(property("minecraftVersion").toString())
+                requires("fabric-api")
+            }
+
+            modrinth {
+                projectId = "CWgsoj4A"
+                accessToken = providers.gradleProperty("modrinth.token")
+                minecraftVersions.add(property("minecraftVersion").toString())
+                requires("fabric-api")
+            }
+
+            github {
+                repository = "Enaium/fabric-mod-AntiDrop"
+                accessToken = providers.gradleProperty("github.token")
+                commitish = "master"
+            }
+
+            tasks.withType<PublishModTask>().configureEach {
+                dependsOn(tasks.named("remapJar"))
             }
         }
     }

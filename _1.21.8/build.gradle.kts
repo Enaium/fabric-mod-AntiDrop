@@ -3,8 +3,6 @@ val yarnMappings: String by project
 val loaderVersion: String by project
 val fabricVersion: String by project
 
-version = "${minecraftVersion}-${version}"
-
 dependencies {
     minecraft("com.mojang:minecraft:${minecraftVersion}")
     mappings("net.fabricmc:yarn:${yarnMappings}:v2")
