@@ -36,18 +36,24 @@ public class ItemListWidget {
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(
+                DrawContext context,
+                int mouseX,
+                int mouseY,
+                boolean hovered,
+                float tickDelta
+        ) {
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
             ItemStack itemStack = new ItemStack(Registries.ITEM.get(Identifier.of(name)));
             if (!itemStack.isEmpty()) {
-                context.drawItem(itemStack, x, y);
+                context.drawItem(itemStack, getX(), getY());
 
                 context.drawText(textRenderer, itemStack.getName(),
-                        x + entryWidth - textRenderer.getWidth(itemStack.getName()),
-                        y + textRenderer.fontHeight, 0xFFFFFFFF, true);
+                        getX() + getContentWidth() - textRenderer.getWidth(itemStack.getName()),
+                        getY() + textRenderer.fontHeight, 0xFFFFFFFF, true);
             }
-            context.drawText(textRenderer, name, x + entryWidth - textRenderer.getWidth(name), y, 0xFFFFFFFF, true);
-            super.render(context, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+            context.drawText(textRenderer, name, getX() + getContentWidth() - textRenderer.getWidth(name), getY(), 0xFFFFFFFF, true);
+            super.render(context, mouseX, mouseY, hovered, tickDelta);
         }
     }
 }

@@ -17,6 +17,7 @@
 package cn.enaium.antidrop.screen;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.EntryListWidget;
@@ -32,18 +33,18 @@ public class ListWidget<T extends ListWidget.Entry<T>> extends EntryListWidget<T
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         for (int i = 0; i < children().size(); i++) {
             if (children().get(i).hovered) {
                 setSelected(children().get(i));
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
     @Override
-    protected boolean removeEntry(T entry) {
-        return super.removeEntry(entry);
+    protected void removeEntry(T entry) {
+        super.removeEntry(entry);
     }
 
     @Override
@@ -64,9 +65,8 @@ public class ListWidget<T extends ListWidget.Entry<T>> extends EntryListWidget<T
     public static class Entry<E extends EntryListWidget.Entry<E>> extends EntryListWidget.Entry<E> {
         public boolean hovered = false;
 
-
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             this.hovered = hovered;
         }
     }
