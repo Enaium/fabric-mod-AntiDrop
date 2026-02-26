@@ -47,7 +47,7 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>) {
                         val itemName = Registry.ITEM.getId(item).toString()
                         if (action == Action.ADD) {
                             model.item.add(itemName)
-                            context!!.getSource()!!.sendFeedback(
+                            context.getSource().sendFeedback(
                                 TranslatableText(
                                     "command.action.add",
                                     LiteralText(itemName).styled { style ->
@@ -62,7 +62,7 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>) {
                                 ), false)
                         } else if (action == Action.REMOVE) {
                             model.item.remove(itemName)
-                            context!!.getSource()!!.sendFeedback(
+                            context.getSource().sendFeedback(
                                 TranslatableText(
                                     "command.action.remove",
                                     LiteralText(itemName).styled { style ->
