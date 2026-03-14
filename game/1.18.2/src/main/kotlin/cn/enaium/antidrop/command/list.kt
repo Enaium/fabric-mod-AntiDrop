@@ -19,8 +19,8 @@ import cn.enaium.antidrop.Config.model
 import cn.enaium.antidrop.ROOT
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.ServerCommandSource
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
 import net.minecraft.text.HoverEvent
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
@@ -31,10 +31,10 @@ import net.minecraft.util.registry.Registry
 /**
  * @author Enaium
  */
-fun list(dispatcher: CommandDispatcher<ServerCommandSource>) {
+fun list(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
     dispatcher.register(
         ROOT.then(
-            CommandManager.literal("list").executes { context ->
+            ClientCommandManager.literal("list").executes { context ->
                 var previous: MutableText? = null
                 for (item in model.item) {
                     val itemText = LiteralText(item).styled { style ->
@@ -61,7 +61,7 @@ fun list(dispatcher: CommandDispatcher<ServerCommandSource>) {
 
                 val finalPrevious = previous
                 if (finalPrevious != null) {
-                    context.getSource().sendFeedback(finalPrevious, false)
+                    context.getSource().sendFeedback(finalPrevious)
                 }
                 Command.SINGLE_SUCCESS
             }

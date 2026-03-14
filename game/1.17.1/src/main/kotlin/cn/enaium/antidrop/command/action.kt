@@ -20,9 +20,9 @@ import cn.enaium.antidrop.ROOT
 import cn.enaium.antidrop.common.Action
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
 import net.minecraft.command.argument.ItemStackArgumentType
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.HoverEvent
 import net.minecraft.text.LiteralText
 import net.minecraft.text.TranslatableText
@@ -33,12 +33,12 @@ import net.minecraft.util.registry.Registry
 /**
  * @author Enaium
  */
-fun action(dispatcher: CommandDispatcher<ServerCommandSource>) {
+fun action(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
     for (action in Action.entries) {
         dispatcher.register(
             ROOT.then(
-                CommandManager.literal(action.name).then(
-                    CommandManager.argument(
+                ClientCommandManager.literal(action.name).then(
+                    ClientCommandManager.argument(
                         "item",
                         ItemStackArgumentType.itemStack()
                     ).executes { context ->
@@ -59,7 +59,7 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>) {
                                                 )
                                             )
                                     }
-                                ), false)
+                                ))
                         } else if (action == Action.REMOVE) {
                             model.item.remove(itemName)
                             context.getSource().sendFeedback(
@@ -74,7 +74,7 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>) {
                                                 )
                                             )
                                     }
-                                ), false)
+                                ))
                         }
                         Command.SINGLE_SUCCESS
                     }

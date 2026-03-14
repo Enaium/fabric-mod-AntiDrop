@@ -23,8 +23,8 @@ import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.command.argument.ItemStackArgumentType
 import net.minecraft.registry.Registries
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.ServerCommandSource
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.text.HoverEvent
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
@@ -33,12 +33,12 @@ import net.minecraft.util.Formatting
 /**
  * @author Enaium
  */
-fun action(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess: CommandRegistryAccess) {
+fun action(dispatcher: CommandDispatcher<FabricClientCommandSource>, registryAccess: CommandRegistryAccess) {
     for (action in Action.entries) {
         dispatcher.register(
             ROOT.then(
-                CommandManager.literal(action.name).then(
-                    CommandManager.argument(
+                ClientCommandManager.literal(action.name).then(
+                    ClientCommandManager.argument(
                         "item",
                         ItemStackArgumentType.itemStack(registryAccess)
                     ).executes { context ->
@@ -47,7 +47,7 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess: C
                         val itemName = Registries.ITEM.getId(item).toString()
                         if (action == Action.ADD) {
                             model.item.add(itemName)
-                            context.getSource().sendFeedback({
+                            context.getSource().sendFeedback(
                                 Text.translatable(
                                     "command.action.add",
                                     Text.literal(itemName).styled { style ->
@@ -59,24 +59,22 @@ fun action(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess: C
                                                 )
                                             )
                                     }
-                                )
-                            }, false)
+                                ))
                         } else if (action == Action.REMOVE) {
                             model.item.remove(itemName)
-                            context.getSource().sendFeedback({
+                            context.getSource().sendFeedback(
                                 Text.translatable(
-                                    "command.action.remove",
-                                    Text.literal(itemName).styled { style ->
-                                        style.withColor(Formatting.AQUA)
-                                            .withHoverEvent(
-                                                HoverEvent(
-                                                    HoverEvent.Action.SHOW_ITEM,
-                                                    HoverEvent.ItemStackContent(item.defaultStack)
-                                                )
+                                "command.action.remove",
+                                Text.literal(itemName).styled { style ->
+                                    style.withColor(Formatting.AQUA)
+                                        .withHoverEvent(
+                                            HoverEvent(
+                                                HoverEvent.Action.SHOW_ITEM,
+                                                HoverEvent.ItemStackContent(item.defaultStack)
                                             )
-                                    }
-                                )
-                            }, false)
+                                        )
+                                }
+                            ))
                         }
                         Command.SINGLE_SUCCESS
                     }

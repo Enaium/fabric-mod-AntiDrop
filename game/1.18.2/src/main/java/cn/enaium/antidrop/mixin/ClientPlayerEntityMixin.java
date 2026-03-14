@@ -17,11 +17,12 @@
 package cn.enaium.antidrop.mixin;
 
 import cn.enaium.antidrop.event.ScreenCallbacks;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -29,15 +30,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * @author Enaium
  */
-@Mixin(PlayerInventory.class)
-public abstract class PlayerInventoryMixin {
-    @Shadow
-    public abstract ItemStack getMainHandStack();
+@Mixin(ClientPlayerEntity.class)
+public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
+    public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
+        super(world, profile);
+    }
 
     @Inject(at = @At("HEAD"), method = "dropSelectedItem", cancellable = true)
-    public void dropSelectedItem(boolean entireStack, CallbackInfoReturnable<ItemStack> cir) {
-        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(Registries.ITEM.getId(getMainHandStack().getItem()).toString())) {
-            cir.setReturnValue(ItemStack.EMPTY);
+    public void dropSelectedItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(Registry.ITEM.getId(getMainHandStack().getItem()).toString())) {
+            cir.setReturnValue(false);
         }
     }
 }

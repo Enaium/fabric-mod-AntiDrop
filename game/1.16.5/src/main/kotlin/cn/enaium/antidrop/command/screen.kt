@@ -19,6 +19,8 @@ import cn.enaium.antidrop.ROOT
 import cn.enaium.antidrop.screen.ItemListScreen
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
@@ -26,12 +28,15 @@ import net.minecraft.server.command.ServerCommandSource
 /**
  * @author Enaium
  */
-fun screen(dispatcher: CommandDispatcher<ServerCommandSource>) {
+fun screen(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
     dispatcher.register(
         ROOT.then(
-            CommandManager.literal("screen").executes {
-                MinecraftClient.getInstance()
-                    .execute { MinecraftClient.getInstance().openScreen(ItemListScreen()) }
+            ClientCommandManager.literal("screen").executes {
+                Thread {
+                    MinecraftClient.getInstance().execute {
+                        MinecraftClient.getInstance().openScreen(ItemListScreen())
+                    }
+                }.start()
                 Command.SINGLE_SUCCESS
             }
         )

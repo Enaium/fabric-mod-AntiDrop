@@ -19,6 +19,8 @@ import cn.enaium.antidrop.Config.model
 import cn.enaium.antidrop.ROOT
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -33,10 +35,10 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * @author Enaium
  */
-fun list(dispatcher: CommandDispatcher<CommandSourceStack>) {
+fun list(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
     dispatcher.register(
         ROOT.then(
-            Commands.literal("list").executes { context ->
+            ClientCommands.literal("list").executes { context ->
                 var previous: MutableComponent? = null
                 for (item in model.item) {
                     BuiltInRegistries.ITEM.get(Identifier.parse(item)).getOrNull()?.value()?.defaultInstance?.also {
@@ -58,7 +60,7 @@ fun list(dispatcher: CommandDispatcher<CommandSourceStack>) {
 
                 val finalPrevious = previous
                 if (finalPrevious != null) {
-                    context.getSource().sendSystemMessage(finalPrevious)
+                    context.getSource().sendFeedback(finalPrevious)
                 }
                 Command.SINGLE_SUCCESS
             }

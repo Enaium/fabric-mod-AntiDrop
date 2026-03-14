@@ -16,9 +16,9 @@
 
 package cn.enaium.antidrop
 
-import net.minecraft.commands.Commands
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands
 
 /**
  * @author Enaium
  */
-val ROOT = Commands.literal("antidrop")
+val ROOT = ClientCommands.literal("antidrop")

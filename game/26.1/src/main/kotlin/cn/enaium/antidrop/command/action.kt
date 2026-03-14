@@ -20,6 +20,8 @@ import cn.enaium.antidrop.ROOT
 import cn.enaium.antidrop.common.Action
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
@@ -32,12 +34,12 @@ import net.minecraft.world.item.ItemStackTemplate
 /**
  * @author Enaium
  */
-fun action(dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: CommandBuildContext) {
+fun action(dispatcher: CommandDispatcher<FabricClientCommandSource>, buildContext: CommandBuildContext) {
     for (action in Action.entries) {
         dispatcher.register(
             ROOT.then(
-                Commands.literal(action.name).then(
-                    Commands.argument(
+                ClientCommands.literal(action.name).then(
+                    ClientCommands.argument(
                         "item",
                         ItemArgument.item(buildContext)
                     ).executes { context ->
@@ -45,7 +47,7 @@ fun action(dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: Comm
                         val itemName = item.registeredName
                         if (action == Action.ADD) {
                             model.item.add(itemName)
-                            context.getSource().sendSystemMessage(
+                            context.getSource().sendFeedback(
                                 Component.translatable(
                                     "command.action.add",
                                     Component.literal(itemName).withStyle { style ->
@@ -56,7 +58,7 @@ fun action(dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: Comm
                             )
                         } else if (action == Action.REMOVE) {
                             model.item.remove(itemName)
-                            context.getSource().sendSystemMessage(
+                            context.getSource().sendFeedback(
                                 Component.translatable(
                                     "command.action.remove",
                                     Component.literal(itemName).withStyle { style ->

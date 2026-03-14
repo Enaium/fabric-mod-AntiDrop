@@ -19,6 +19,8 @@ import cn.enaium.antidrop.ROOT
 import cn.enaium.antidrop.screen.ItemListScreen
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -26,10 +28,10 @@ import net.minecraft.commands.Commands
 /**
  * @author Enaium
  */
-fun screen(dispatcher: CommandDispatcher<CommandSourceStack>) {
+fun screen(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
     dispatcher.register(
         ROOT.then(
-            Commands.literal("screen").executes {
+            ClientCommands.literal("screen").executes {
                 Minecraft.getInstance()
                     .execute { Minecraft.getInstance().setScreen(ItemListScreen()) }
                 Command.SINGLE_SUCCESS

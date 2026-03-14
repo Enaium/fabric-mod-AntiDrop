@@ -17,9 +17,13 @@
 package cn.enaium.antidrop.mixin;
 
 import cn.enaium.antidrop.event.ScreenCallbacks;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,15 +33,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * @author Enaium
  */
-@Mixin(PlayerInventory.class)
-public abstract class PlayerInventoryMixin {
-    @Shadow
-    public abstract ItemStack getSelectedStack();
+@Mixin(LocalPlayer.class)
+public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 
-    @Inject(at = @At("HEAD"), method = "dropSelectedItem", cancellable = true)
-    public void dropSelectedItem(boolean entireStack, CallbackInfoReturnable<ItemStack> cir) {
-        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(Registries.ITEM.getId(getSelectedStack().getItem()).toString())) {
-            cir.setReturnValue(ItemStack.EMPTY);
+    public LocalPlayerMixin(ClientLevel level, GameProfile gameProfile) {
+        super(level, gameProfile);
+    }
+
+    @Inject(at = @At("HEAD"), method = "drop", cancellable = true)
+    public void dropSelectedItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(BuiltInRegistries.ITEM.getKey(getMainHandItem().getItem()).toString())) {
+            cir.setReturnValue(false);
         }
     }
 }

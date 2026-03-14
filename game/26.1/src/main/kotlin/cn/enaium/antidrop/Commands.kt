@@ -20,7 +20,8 @@ import cn.enaium.antidrop.command.action
 import cn.enaium.antidrop.command.list
 import cn.enaium.antidrop.command.screen
 import com.mojang.brigadier.CommandDispatcher
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
@@ -31,7 +32,7 @@ import net.minecraft.commands.Commands
 object Commands {
     @JvmStatic
     fun client() {
-        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher: CommandDispatcher<CommandSourceStack>, buildContext: CommandBuildContext, selection: Commands.CommandSelection ->
+        ClientCommandRegistrationCallback.EVENT.register(ClientCommandRegistrationCallback { dispatcher: CommandDispatcher<FabricClientCommandSource>, buildContext: CommandBuildContext ->
             screen(dispatcher)
             action(dispatcher, buildContext)
             list(dispatcher)
