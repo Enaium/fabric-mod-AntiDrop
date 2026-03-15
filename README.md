@@ -1,8 +1,8 @@
 # AntiDrop
 
-[![Version](https://img.shields.io/github/v/tag/Enaium/fabric-mod-AntiDrop?label=version&style=flat-square&logo=github)](https://github.com/Enaium/fabric-mod-OneKeyMiner/releases)
-[![CurseForge Downloads](https://img.shields.io/curseforge/dt/580810?style=flat-square&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/onekeyminer)
-[![Modrinth Downloads](https://img.shields.io/modrinth/dt/CWgsoj4A?style=flat-square&logo=modrinth)](https://modrinth.com/mod/onekeyminer)
+[![Version](https://img.shields.io/github/v/tag/Enaium/fabric-mod-AntiDrop?label=version&style=flat-square&logo=github)](https://github.com/Enaium/fabric-mod-AntiDrop/releases)
+[![CurseForge Downloads](https://img.shields.io/curseforge/dt/580810?style=flat-square&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/antidrop)
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/CWgsoj4A?style=flat-square&logo=modrinth)](https://modrinth.com/mod/antidrop)
 
 
 A Fabric mod that prevents players from accidentally dropping valuable items in Minecraft. AntiDrop allows you to create
