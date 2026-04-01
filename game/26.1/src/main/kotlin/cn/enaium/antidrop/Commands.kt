@@ -16,15 +16,10 @@
 
 package cn.enaium.antidrop
 
-import cn.enaium.antidrop.command.action
-import cn.enaium.antidrop.command.list
-import cn.enaium.antidrop.command.screen
-import com.mojang.brigadier.CommandDispatcher
+import cn.enaium.antidrop.config.AntiDropConfig
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-import net.minecraft.commands.CommandBuildContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
+import net.minecraft.core.registries.Registries
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * @author Enaium
@@ -32,10 +27,11 @@ import net.minecraft.commands.Commands
 object Commands {
     @JvmStatic
     fun client() {
-        ClientCommandRegistrationCallback.EVENT.register(ClientCommandRegistrationCallback { dispatcher: CommandDispatcher<FabricClientCommandSource>, buildContext: CommandBuildContext ->
-            screen(dispatcher)
-            action(dispatcher, buildContext)
-            list(dispatcher)
+        ClientCommandRegistrationCallback.EVENT.register(ClientCommandRegistrationCallback { _, buildContext ->
+            val map = buildContext.lookup(Registries.ITEM)
+                .map { it -> it.listElementIds().map { it.identifier().toString() } }.getOrNull()?.toList()
+                ?: emptyList()
+            AntiDropConfig.items = AntiDropConfig.items.copy(options = map)
         })
     }
 }

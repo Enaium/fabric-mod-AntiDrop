@@ -16,10 +16,9 @@
 
 package cn.enaium.antidrop
 
-import cn.enaium.antidrop.command.action
-import cn.enaium.antidrop.command.list
-import cn.enaium.antidrop.command.screen
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
+import cn.enaium.antidrop.config.AntiDropConfig
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
+import net.minecraft.util.registry.Registry
 
 /**
  * @author Enaium
@@ -27,8 +26,9 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
 object Commands {
     @JvmStatic
     fun client() {
-        screen(ClientCommandManager.DISPATCHER)
-        action(ClientCommandManager.DISPATCHER)
-        list(ClientCommandManager.DISPATCHER)
+        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { _, _ ->
+            val map = Registry.ITEM.ids.map { it.toString() }.toList()
+            AntiDropConfig.items = AntiDropConfig.items.copy(options = map)
+        })
     }
 }

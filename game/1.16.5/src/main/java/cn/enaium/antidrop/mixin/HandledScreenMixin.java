@@ -16,7 +16,6 @@
 
 package cn.enaium.antidrop.mixin;
 
-import cn.enaium.antidrop.Config;
 import cn.enaium.antidrop.common.SlotAction;
 import cn.enaium.antidrop.event.ScreenCallbacks;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -55,7 +54,7 @@ public abstract class HandledScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "onClose", cancellable = true)
     public void onClose(CallbackInfo ci) {
-        if (Config.INSTANCE.getModel().getItem().contains(Registry.ITEM.getId(playerInventory.getCursorStack().getItem()).toString())) {
+        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(Registry.ITEM.getId(playerInventory.getCursorStack().getItem()).toString())) {
             ci.cancel();
         }
     }

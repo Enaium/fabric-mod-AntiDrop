@@ -16,9 +16,7 @@
 
 package cn.enaium.antidrop
 
-import cn.enaium.antidrop.event.CommandCallbacks
 import cn.enaium.antidrop.event.ScreenCallbacks
-import cn.enaium.antidrop.event.impl.ActionCallbackImpl
 import cn.enaium.antidrop.event.impl.DropSelectedItemCallbackImpl
 import cn.enaium.antidrop.event.impl.ScreenMouseClickCallbackImpl
 
@@ -30,9 +28,5 @@ object AntiDrop {
     fun client() {
         ScreenCallbacks.DropSelectedItemCallback.EVENT.register(DropSelectedItemCallbackImpl())
         ScreenCallbacks.ScreenMouseClickCallback.EVENT.register(ScreenMouseClickCallbackImpl())
-        CommandCallbacks.ActionCallback.EVENT.register(ActionCallbackImpl())
-
-        Config.load()
-        Runtime.getRuntime().addShutdownHook(Thread(Config::save))
     }
 }

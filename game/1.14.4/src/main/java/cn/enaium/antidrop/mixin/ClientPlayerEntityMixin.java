@@ -16,7 +16,6 @@
 
 package cn.enaium.antidrop.mixin;
 
-import cn.enaium.antidrop.Config;
 import cn.enaium.antidrop.event.ScreenCallbacks;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -48,7 +47,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("HEAD"), method = "closeContainer", cancellable = true)
     public void closeContainer(CallbackInfo ci) {
-        if (Config.INSTANCE.getModel().getItem().contains(Registry.ITEM.getId(inventory.getCursorStack().getItem()).toString())) {
+        if (!ScreenCallbacks.DropSelectedItemCallback.Companion.getEVENT().getInvoker().interact(Registry.ITEM.getId(getMainHandStack().getItem()).toString())) {
             ci.cancel();
         }
     }
