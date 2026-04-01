@@ -4,7 +4,6 @@
 [![CurseForge Downloads](https://img.shields.io/curseforge/dt/580810?style=flat-square&logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/antidrop)
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/CWgsoj4A?style=flat-square&logo=modrinth)](https://modrinth.com/mod/antidrop)
 
-
 A Fabric mod that prevents players from accidentally dropping valuable items in Minecraft. AntiDrop allows you to create
 a customizable list of items that cannot be dropped, helping protect your most important gear and resources.
 
@@ -31,16 +30,15 @@ a customizable list of items that cannot be dropped, helping protect your most i
 3. Start Minecraft with Fabric Loader
 4. The mod will automatically create a configuration file
 
-## 📋 Commands
+## Configuration
 
-AntiDrop provides several commands to manage your protected items:
+This mod uses the MineConf for configuration.
 
-| Command                   | Description                                  | Usage                         |
-|---------------------------|----------------------------------------------|-------------------------------|
-| `/antidrop screen`        | Opens the AntiDrop GUI for visual management | `/antidrop screen`            |
-| `/antidrop list`          | Shows all currently protected items          | `/antidrop list`              |
-| `/antidrop ADD <item>`    | Adds an item to the protection list          | `/antidrop ADD diamond_sword` |
-| `/antidrop REMOVE <item>` | Removes an item from the protection list     | `/antidrop REMOVE stone`      |
+### Configs
+
+| Config | Description                   |
+|--------|-------------------------------|
+| items  | All currently protected items |
 
 ## 🎮 Usage
 
@@ -49,14 +47,6 @@ AntiDrop provides several commands to manage your protected items:
 1. **Launch the game** with AntiDrop installed
 2. **Add items** to your protection list using commands or the GUI
 3. **Test protection** by trying to drop a protected item - it should be prevented
-
-### GUI Interface
-
-- Use `/antidrop screen` to open the visual interface
-- Browse through your inventory items
-- Click "Add" to protect an item
-- Click "Remove" to unprotect an item
-- The interface shows all items in your inventory with their protection status
 
 ## 🤝 Contributing
 
