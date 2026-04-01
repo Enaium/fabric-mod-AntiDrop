@@ -16,11 +16,11 @@
 
 package cn.enaium.antidrop.event.impl
 
-import cn.enaium.antidrop.Config.model
+import cn.enaium.antidrop.config.AntiDropConfig
 import cn.enaium.antidrop.event.ScreenCallbacks
 
 class DropSelectedItemCallbackImpl : ScreenCallbacks.DropSelectedItemCallback {
     override fun interact(item: String): Boolean {
-        return !model.item.contains(item)
+        return !AntiDropConfig.items.value.contains(item)
     }
 }

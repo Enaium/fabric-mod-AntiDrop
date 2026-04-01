@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.enaium.antidrop.config
 
-package cn.enaium.antidrop
-
-import net.minecraft.server.command.CommandManager
+import cn.enaium.mineconf.core.MineConf
+import cn.enaium.mineconf.core.MineConfService
 
 /**
  * @author Enaium
  */
-val ROOT = CommandManager.literal("antidrop")
+class MineConfServiceImpl : MineConfService {
+    override fun conf(): MineConf {
+        return MineConf("antidrop", "AntiDrop", AntiDropConfig)
+    }
+}

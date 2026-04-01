@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package cn.enaium.antidrop
+package cn.enaium.antidrop.config
 
-import net.minecraft.server.command.CommandManager
+import cn.enaium.mineconf.core.ConfBuilder
 
 /**
  * @author Enaium
  */
-val ROOT = CommandManager.literal("antidrop")
+object AntiDropConfig {
+    var items =
+        ConfBuilder.create()
+            .id("items").name("Items").description("Protected items")
+            .collection<String>().build(mutableListOf())
+}

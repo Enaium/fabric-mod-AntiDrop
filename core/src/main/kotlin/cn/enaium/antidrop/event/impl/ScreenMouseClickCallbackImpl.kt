@@ -16,8 +16,8 @@
 
 package cn.enaium.antidrop.event.impl
 
-import cn.enaium.antidrop.Config.model
 import cn.enaium.antidrop.common.SlotAction
+import cn.enaium.antidrop.config.AntiDropConfig
 import cn.enaium.antidrop.event.ScreenCallbacks
 
 class ScreenMouseClickCallbackImpl : ScreenCallbacks.ScreenMouseClickCallback {
@@ -26,11 +26,11 @@ class ScreenMouseClickCallbackImpl : ScreenCallbacks.ScreenMouseClickCallback {
         cursor: String,
         slotAction: SlotAction
     ): Boolean {
-        if (slot != null && model.item.contains(slot) && slotAction == SlotAction.THROW) {
+        if (slot != null && AntiDropConfig.items.value.contains(slot) && slotAction == SlotAction.THROW) {
             return false
         }
 
-        if (slot == null && model.item.contains(cursor) && slotAction == SlotAction.PICKUP) {
+        if (slot == null && AntiDropConfig.items.value.contains(cursor) && slotAction == SlotAction.PICKUP) {
             return false
         }
         return true
