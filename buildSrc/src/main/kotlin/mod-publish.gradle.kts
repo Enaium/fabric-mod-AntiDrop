@@ -7,19 +7,20 @@ plugins {
 
 afterEvaluate {
     publishMods {
-        val disableObfuscation = properties.getOrDefault("fabric.loom.disableObfuscation", false).toString().toBoolean()
+        val disableObfuscation = (findProperty("fabric.loom.disableObfuscation") ?: false).toString().toBoolean()
         file = tasks.named<AbstractArchiveTask>(if (disableObfuscation) "jar" else "remapJar").get().archiveFile.get()
         type = STABLE
         displayName = "AntiDrop ${project.version}"
         changelog = rootProject.file("changelog.md").readText(Charsets.UTF_8)
         modLoaders.add("fabric")
 
-        val modern = VersionNumber.parse(properties["minecraft.version"].toString()) >= VersionNumber.parse("1.14")
+        val modern = VersionNumber.parse(findProperty("minecraft.version").toString()) >= VersionNumber.parse("1.14")
 
         curseforge {
             projectId = "580810"
             accessToken = providers.gradleProperty("curseforge.token")
             minecraftVersions.add(property("minecraft.version").toString())
+            client = true
             requires("fabric-language-kotlin", "mineconf", if (modern) "fabric-api" else "legacy-fabric-api")
         }
 

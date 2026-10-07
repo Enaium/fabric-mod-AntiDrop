@@ -17,6 +17,9 @@ package cn.enaium.antidrop.config
 
 import cn.enaium.mineconf.core.MineConf
 import cn.enaium.mineconf.core.MineConfService
+import cn.enaium.mineconf.core.gui.render.IdExtension
+import cn.enaium.mineconf.core.gui.render.ScreenExtension
+import cn.enaium.mineconf.core.gui.render.itemRender
 
 /**
  * @author Enaium
@@ -24,5 +27,11 @@ import cn.enaium.mineconf.core.MineConfService
 class MineConfServiceImpl : MineConfService {
     override fun conf(): MineConf {
         return MineConf("antidrop", "AntiDrop", AntiDropConfig)
+    }
+
+    override fun extensions(): Collection<ScreenExtension> {
+        return listOf(
+            IdExtension(listOf("items"), itemRender()),
+        )
     }
 }

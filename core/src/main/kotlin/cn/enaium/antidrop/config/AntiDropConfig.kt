@@ -25,5 +25,5 @@ object AntiDropConfig {
     var items =
         ConfBuilder.create()
             .id("items").name("Items").description("Protected items")
-            .collection<String>().build(mutableListOf())
+            .collection<String>().separator(':').build(mutableListOf())
 }

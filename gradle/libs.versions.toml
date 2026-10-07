@@ -3,14 +3,15 @@ kotlin = "2.4.20"
 fabricKotlin = "1.14.1+kotlin.2.4.20"
 publish = "2.2.1"
 fmg = "0.0.8"
-loom = "1.16-SNAPSHOT"
-mineconf = "1.1.4"
+loom = "1.18-SNAPSHOT"
+legacyLooming = "1.16-SNAPSHOT"
+mineconf = "1.2.0"
 
 [libraries]
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 fabric-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabricKotlin" }
 loom = { module = "net.fabricmc:fabric-loom", version.ref = "loom" }
-legacy-looming = { module = "net.legacyfabric:legacy-looming", version.ref = "loom" }
+legacy-looming = { module = "net.legacyfabric:legacy-looming", version.ref = "legacyLooming" }
 publish = { module = "me.modmuss50.mod-publish-plugin:me.modmuss50.mod-publish-plugin.gradle.plugin", version.ref = "publish" }
 fmg = { module = "cn.enaium.fabric-multi-game:cn.enaium.fabric-multi-game.gradle.plugin", version.ref = "fmg" }
 mineconf = { module = "cn.enaium:mineconf-api", version.ref = "mineconf" }
